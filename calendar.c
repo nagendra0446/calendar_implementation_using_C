@@ -36,6 +36,8 @@ int leap(int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
 		return 1;
 }
 
+// ------------------------------------------------------------------------------------------
+
 char* month_names[] = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY"
 						, "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
 
