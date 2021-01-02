@@ -1,6 +1,6 @@
 /*
 THIS IS A C PROGRAM TO CALCULATE AND DISPLAY THE CALENDAR OF A PARTICULAR YEAR.
-THIS PROGRAM TAKES YEAR(1753 TO 9999) AS INPUT AND GIVES THE CALENDAR 
+THIS PROGRAM TAKES YEAR(1753 TO 9999) AS INPUT AND GIVES THE CALENDAR
 (ACCORDING TO GREGORIAN CALENDAR) AS THE OUTPUT.
 
 CODE BY: 
@@ -8,26 +8,43 @@ NAGENDRA NAINALA
 GIT HUB : "https://github.com/nagendra0446"
 */ 
 
-
 #include<stdio.h>
 
-int key_year(int);		// FUNCTION TO FIND THE KEY OF THE YEAR.
-/*
-	KEY OF A YEAR = KEY OF JAN MONTH WHICH NOTHING BUT THE DISPLACEMENT OF 1st with Sunday.
-	For Example:	If 1st of Jan of a year is Sunday the key is 0
-					If 1st of Jan of a year is Monday the key is 1 
-*/
+int key_year(int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
+{
+	/*
+	KEY OF A YEAR = KEY OF JAN MONTH WHICH IS THE DISPLACEMENT OF '1ST JAN' WITH SUNDAY.
+	FOR EXAMPLE:	IF 1ST OF JAN OF A YEAR IS SUNDAY THE KEY IS 0
+					IF 1ST OF JAN OF A YEAR IS MONDAY THE KEY IS 1 
+	*/
 
-int leap(int);			// FUNCTION TO CHECK LEAP YEAR OR NOT.
-/*
-	THIS IS THE FUNCTION USED BY THE key_year() FUNCTION TO CALCULATE THE KEY
-*/
+   	int key=1, i=0, offset;
 
+   	for(i=1753; i<year; i++)
+	{
+		offset = leap(i) ? 2 : 1;
+       	key = (key + offset) % 7;
+	}
+    return key;
+}
 
-void print_name(int);		//FUNCTION TO PRINT NAME OF THE MONTH.
+int leap(int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
+{
+	if((year % 100 != 0 && year%4 != 0) || (year % 100 == 0 && year % 400 != 0))
+		return 0;
+	else
+		return 1;
+}
 
 char* month_names[] = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY"
 						, "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
+
+void print_name(int m)		//FUNCTION TO PRINT NAME OF THE MONTH.
+{
+	printf("\t");   
+	printf(month_names[m-1]);
+	printf("\n\n");
+}
 
 
 
@@ -43,20 +60,21 @@ int main()
 	}while((year < 1753 || year >9999) && 
 		printf("\n\t\t\tCALENDER CANNOT BE CALCULATED BELOW 1753 AND ABOVE 9999\n\n"));
 			
-	if(leap(year)) 					//FUNCTION TO CHECK LEAP YEAR OR NOT.
+	if(leap(year)) 				//FUNCTION TO CHECK LEAP YEAR OR NOT.
 		days[2] = 29;
 	
-	key[1] = key_year(year);		//FUNCTION TO FIND THE KEY OF THE YEAR. 	
+	key[1] = key_year(year);	//FUNCTION TO FIND THE KEY OF THE YEAR. 	
 
 	for(i=2;i<=12;i++)
-		key[i] = (((days[i-1])%(7)) + key[i-1])%7;         //CALCULATING KEY FOR ALL THE MONTHS INTO AN ARRAY "KEY".
+		key[i] = 				// CALCULATING KEY FOR ALL THE MONTHS INTO AN ARRAY "KEY".
+			(((days[i-1])%(7)) + key[i-1])%7;	
 
 	//PRINTING FINAL OUTPUT.
 	printf("\n\t\t     %d\n\n",year);
 
 	for(m=1;m<=12;m++)
 	{
-		print_name(m);		//FUNCTION TO PRINT NAME OF THE MONTH.
+		print_name(m);			//FUNCTION TO PRINT NAME OF THE MONTH.
 
 		printf("\tSu    M    T    W   Th    F   Sa\n");
 
@@ -81,52 +99,4 @@ int main()
 		}
 		printf("\n\n");
 	}
-}
-
-
-
-
-// FUNCTION TO FIND LEAP YEAR OR NOT.
-
-int leap(int year)
-{
-	if((year % 100 != 0 && year%4 != 0) || (year % 100 == 0 && year % 400 != 0))
-		return 0;
-		
-	else
-		return 1;
-}
-
-
-
-// FUNCTION TO FIND KEY OF THE YEAR.
-
-int key_year(int year)
-{
-	int year_key[10001];
-	int i;
-
-	year_key[1753] = 1;
-	
-	for(i = 1753;i <= year;i++)
-	{
-
-		if(leap(i))
-			year_key[i+1] = ((366 % 7) + year_key[i]) % 7;
-		else
-			year_key[i+1] = ((365 % 7) + year_key[i]) % 7;
-	}
-	return (year_key[year]);
-}
-
-
-
-
-// FUCTION TO PRINT NAME OF THE MONTHS.
-
-void print_name(int m)
-{
-	printf("\t");   
-	printf(month_names[m-1]);
-	printf("\n\n");
 }
