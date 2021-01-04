@@ -1,6 +1,6 @@
 /*
 THIS IS A C PROGRAM TO CALCULATE AND DISPLAY THE CALENDAR OF A PARTICULAR YEAR.
-THIS PROGRAM TAKES YEAR(1753 TO 400000000) AS INPUT AND GIVES THE CALENDAR
+THIS PROGRAM TAKES YEAR(1753 TO 9999) AS INPUT AND GIVES THE CALENDAR
 (ACCORDING TO GREGORIAN CALENDAR) AS THE OUTPUT.
 
 CODE BY: 
@@ -10,15 +10,15 @@ GIT HUB : "https://github.com/nagendra0446"
 
 #include<stdio.h>
 
-int key_year(unsigned int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
+int key_year(int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
 {
 	/*
 	KEY OF A YEAR = KEY OF JAN MONTH WHICH IS THE DISPLACEMENT OF '1ST JAN' WITH SUNDAY.
 	FOR EXAMPLE:	IF 1ST OF JAN OF A YEAR IS SUNDAY THE KEY IS 0
 					IF 1ST OF JAN OF A YEAR IS MONDAY THE KEY IS 1 
 	*/
-	unsigned int i;
-   	int key=1, offset;
+
+   	int i, key=1, offset;
 
    	for(i=1753; i<year; i++)
 	{
@@ -28,7 +28,7 @@ int key_year(unsigned int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
     return key;
 }
 
-int leap(unsigned int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
+int leap(int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
 {
 	if((year % 100 != 0 && year%4 != 0) || (year % 100 == 0 && year % 400 != 0))
 		return 0;
@@ -38,7 +38,7 @@ int leap(unsigned int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
 
 int main()
 {
-	unsigned int year;
+	int year;
 	int i, j, m, s, key[12];
 	int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	char* month_names[] = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
@@ -46,14 +46,14 @@ int main()
 	
 	do
 	{
-		printf("Enter the year(1753 - 40,00,00,000) : ");
-		scanf("%u", &year);
-		if(year >= 1753 && year <= 400000000)
+		printf("Enter the year(1753 - 9999) : ");
+		scanf("%d", &year);
+		if(year >= 1753 && year <= 9999)
 			break;
 		else
 		{
 			printf("\n\t\t\tCALENDER CAN BE CALCULATED ONLY"); 
-			printf("\n\t\t\tBETWEEN 1753 AND 40,00,00,000\n\n");
+			printf("\n\t\t\tBETWEEN 1753 AND 9999\n\n");
 		}
 	}while(1);
 		
@@ -67,7 +67,7 @@ int main()
 		key[i] = (((days[i-1])%(7)) + key[i-1])%7;	
 
 	//PRINTING FINAL OUTPUT.
-	printf("\n\tYEAR: %u \n\n",year);
+	printf("\n\tYEAR: %d \n\n",year);
 
 	for(m=1;m<=12;m++)
 	{
