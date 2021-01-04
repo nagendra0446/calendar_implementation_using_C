@@ -10,15 +10,15 @@ GIT HUB : "https://github.com/nagendra0446"
 
 #include<stdio.h>
 
-int key_year(int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
+int key_year(unsigned int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
 {
 	/*
 	KEY OF A YEAR = KEY OF JAN MONTH WHICH IS THE DISPLACEMENT OF '1ST JAN' WITH SUNDAY.
 	FOR EXAMPLE:	IF 1ST OF JAN OF A YEAR IS SUNDAY THE KEY IS 0
 					IF 1ST OF JAN OF A YEAR IS MONDAY THE KEY IS 1 
 	*/
-
-   	int key=1, i=0, offset;
+	unsigned int i;
+   	int key=1, offset;
 
    	for(i=1753; i<year; i++)
 	{
@@ -28,7 +28,7 @@ int key_year(int year)		// FUNCTION TO FIND KEY OF THE GIVEN YEAR.
     return key;
 }
 
-int leap(int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
+int leap(unsigned int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
 {
 	if((year % 100 != 0 && year%4 != 0) || (year % 100 == 0 && year % 400 != 0))
 		return 0;
@@ -39,29 +39,37 @@ int leap(int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
 int main()
 {
 	unsigned int year;
-	int i, m, j, s, year, leap_res, key[20];
-	int days[20] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	int i, j, m, s, key[12];
+	int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	char* month_names[] = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
 					"JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
 	
 	do
 	{
-		printf("Enter the year(1753 - 9999) : ");
+		printf("Enter the year(1753 - 40,00,00,000) : ");
 		scanf("%u", &year);
-	}while((year < 1753 || year >9999) && 
-		printf("\n\t\t\tCALENDER CANNOT BE CALCULATED BELOW 1753 AND ABOVE 9999\n\n"));
+		if(year > 1753 && year < 400000000)
+		{
+			break;	
+		}
+		else
+		{
+			printf("\n\t\t\tCALENDER CAN BE CALCULATED ONLY 
+							BETWEEN 1753 AND ABOVE 40,00,00,000\n\n");
+		}
+	}while(1);
+		
 			
 	if(leap(year)) 				//FUNCTION TO CHECK LEAP YEAR OR NOT.
 		days[2] = 29;
 	
-	key[1] = key_year(year);	//FUNCTION TO FIND THE KEY OF THE YEAR. 	
+	key[0] = key_year(year);	//FUNCTION TO FIND THE KEY OF THE YEAR. 	
 
-	for(i=2;i<=12;i++)
-		key[i] = 				// CALCULATING KEY FOR ALL THE MONTHS INTO AN ARRAY "KEY".
-			(((days[i-1])%(7)) + key[i-1])%7;	
+	for(i=1;i<12;i++)			// CALCULATING KEY FOR ALL MONTHS INTO ARRAY "KEY".
+		key[i] = (((days[i-1])%(7)) + key[i-1])%7;	
 
 	//PRINTING FINAL OUTPUT.
-	printf("\n\t\t     %d\n\n",year);
+	printf("\n\tYEAR: %u \n\n",year);
 
 	for(m=1;m<=12;m++)
 	{
@@ -70,22 +78,14 @@ int main()
 		printf("\tSu    M    T    W   Th    F   Sa\n");
 
 		printf("\t");
-		for(s=1;s<=key[m];s++)
-		{
-			if(key[m] == 0) 
-				break;
-			else
-				printf("     ");
-		}
+		for(s=1;s<=key[m-1];s++)
+			printf("     ");
 		
-		//printf("\t");
-		for(i=1;i<=days[m];i++)
+		for(i=1;i<=days[m-1];i++)
 		{
 			printf("%2d   ",i);
 
-			if(key[m]==0 && i%7 ==0)
-				printf("\n\t");
-			if((i%7)==(7-key[m]))
+			if((i+key[m-1]) % 7 == 0)
 				printf("\n\t");
 		}
 		printf("\n\n");
