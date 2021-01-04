@@ -36,29 +36,18 @@ int leap(int year)			// FUNCTION TO CHECK LEAP YEAR OR NOT.
 		return 1;
 }
 
-// -----------------------------------------------------------------------------------------
-
-char* month_names[] = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY"
-						, "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
-
-void print_name(int m)		//FUNCTION TO PRINT NAME OF THE MONTH.
-{
-	printf("\t");   
-	printf(month_names[m-1]);
-	printf("\n\n");
-}
-
-
-
 int main()
 {
+	unsigned int year;
 	int i, m, j, s, year, leap_res, key[20];
 	int days[20] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+	char* month_names[] = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", 
+					"JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
 	
 	do
 	{
 		printf("Enter the year(1753 - 9999) : ");
-		scanf("%d", &year);
+		scanf("%u", &year);
 	}while((year < 1753 || year >9999) && 
 		printf("\n\t\t\tCALENDER CANNOT BE CALCULATED BELOW 1753 AND ABOVE 9999\n\n"));
 			
@@ -76,7 +65,7 @@ int main()
 
 	for(m=1;m<=12;m++)
 	{
-		print_name(m);			//FUNCTION TO PRINT NAME OF THE MONTH.
+		printf("\t%s \n\n", month_names[m-1]);
 
 		printf("\tSu    M    T    W   Th    F   Sa\n");
 
