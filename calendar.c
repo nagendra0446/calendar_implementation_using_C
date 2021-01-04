@@ -48,14 +48,14 @@ int main()
 	{
 		printf("Enter the year(1753 - 40,00,00,000) : ");
 		scanf("%u", &year);
-		if(year > 1753 && year < 400000000)
+		if(year >= 1753 && year <= 400000000)
 		{
 			break;	
 		}
 		else
 		{
-			printf("\n\t\t\tCALENDER CAN BE CALCULATED ONLY 
-							BETWEEN 1753 AND ABOVE 40,00,00,000\n\n");
+			printf("\n\t\t\tCALENDER CAN BE CALCULATED ONLY"); 
+			printf("\n\t\t\tBETWEEN 1753 AND 40,00,00,000\n\n");
 		}
 	}while(1);
 		
